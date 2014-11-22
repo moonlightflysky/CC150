@@ -1,0 +1,76 @@
+package chapter2;
+
+
+
+public class Q7 {
+	
+	 public static class ListNode {
+	     int val;
+	     ListNode next;
+	     ListNode(int x) {
+	         val = x;
+	         next = null;
+	     }
+	 }
+	 
+	 public class Result {
+		 
+		 public ListNode node;
+		 public boolean res;
+		 
+		 public Result (ListNode node, boolean res){
+			 this.node = node;
+			 this.res = res;
+		 }
+		 
+	 }
+	 
+	 private int getLength(ListNode l1){
+		 
+		 ListNode cur = l1;
+		 int cnt = 0;
+		 while (cur != null){
+			 cnt++;
+			 cur = cur.next;
+		 }
+		 
+		 return cnt;
+	 }
+	
+	public boolean isPalindrome (ListNode head){
+		
+		int length = getLength(head);
+		
+		Result res = palindromeHelper(head, length);
+		return res.res;
+	}
+	
+	private Result palindromeHelper(ListNode node, int len){
+		
+		if (node == null || len == 0){
+			return new Result(null, true);
+		}
+		
+		if (len == 1){
+			return new Result(node, true);
+		}
+		
+		if (len == 2){
+			return new Result(node.next, node.val == node.next.val);
+		}
+		
+		Result res = palindromeHelper(node.next, len - 2);
+		
+		if (!res.res || res.node == null){
+			return res;
+		}
+		
+		else{
+			res.res = (node.val == res.node.next.val);
+			res.node = res.node.next;
+			return res;
+		}
+		
+	}
+
+}
